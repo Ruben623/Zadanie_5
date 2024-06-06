@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deviance Level Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#calculate").click(function() {
+                var academic_performance = $("#academic_performance").val();
+                var school_behavior = $("#school_behavior").val();
+                var family_situation = $("#family_situation").val();
+
+                $.ajax({
+                    url: "/predict",
+                    type: "POST",
+                    data: {
+                        academic_performance: academic_performance,
+                        school_behavior: school_behavior,
+                        family_situation: family_situation
+                    },
+                    success: function(data) {
+                        $("#result").html(data);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Deviance Level Predictor</h1>
+    <label for="academic_performance">Academic Performance:</label>
+    <input type="number" id="academic_performance" name="academic_performance" min="0" max="100" required>
+
+    <label for="school_behavior">School Behavior:</label>
+    <input type="number" id="school_behavior" name="school_behavior" min="0" max="100" required>
+
+    <label for="family_situation">Family Situation:</label>
+    <input type="number" id="family_situation" name="family_situation" min="0" max="100" required>
+
+    <button id="calculate">Predict Deviance Level</button>
+
+    <label>deviance level:</label>
+    <div id="result"></div>
+</body>
+</html>
